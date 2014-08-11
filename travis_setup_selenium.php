@@ -25,10 +25,11 @@ if(!$resolution) {
 	putenv("BEHAT_SCREEN_SIZE=$resolution");
 }
 
-echo "Starting Selenium at {$resolution}...\n";
+echo "Starting xvfb at {$resolution}...\n";
+$XVFBARGS = ":99 -ac -screen 0 {$resolution}x24";
+putenv("XVFBARGS={$XVFBARGS}");
+run("/sbin/start-stop-daemon --start --quiet --pidfile /tmp/cucumber_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- $XVFBARGS");
 
-if(!putenv("XVFBARGS=:99 -ac -screen 0 {$resolution}x16")) echo "ERROR: Could not set xvfb options!\n";
-run("sh -e /etc/init.d/xvfb start");
 if(!putenv("DISPLAY=:99")) echo "ERROR: Could not set display!\n";
 run("wget https://selenium-release.storage.googleapis.com/2.41/selenium-server-standalone-2.41.0.jar");
 if(!file_exists('artifacts')) mkdir('artifacts');
