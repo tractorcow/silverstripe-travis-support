@@ -28,7 +28,7 @@ if(!$resolution) {
 echo "Starting xvfb at {$resolution}...\n";
 $XVFBARGS = ":99 -ac -screen 0 {$resolution}x24";
 putenv("XVFBARGS={$XVFBARGS}");
-run("/usr/bin/Xvfb -- $XVFBARGS");
+run("/usr/bin/Xvfb $XVFBARGS");
 run("/sbin/start-stop-daemon --start --quiet --pidfile /tmp/cucumber_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- $XVFBARGS");
 
 if(!putenv("DISPLAY=:99")) echo "ERROR: Could not set display!\n";
